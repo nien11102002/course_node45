@@ -178,6 +178,7 @@ INSERT INTO sub_foods (sub_name, sub_price, food_id) VALUES
 -- SELECT* FROM orders;
 -- SELECT* FROM sub_foods;
 
+-- BAI 1
 SELECT users.user_id,users.full_name, users.email,users.password, COUNT(users.user_id) AS quantity
 FROM users
 right JOIN like_res on users.user_id=like_res.user_id
@@ -185,6 +186,7 @@ GROUP BY users.user_id
 ORDER BY quantity DESC
 LIMIT 5;
 
+-- BAI 2
 SELECT restaurants.res_id,restaurants.res_name, COUNT(restaurants.res_id) AS quantity
 FROM restaurants
 right JOIN like_res on restaurants.res_id=like_res.res_id
@@ -192,6 +194,7 @@ GROUP BY restaurants.res_id
 ORDER BY quantity DESC
 LIMIT 2;
 
+-- BAI 3
 SELECT users.user_id,users.full_name,COUNT(users.user_id) AS quantity
 FROM users
 LEFT JOIN orders on users.user_id=orders.user_id
@@ -199,6 +202,7 @@ GROUP BY users.user_id
 ORDER BY COUNT(users.user_id) DESC
 LIMIT 1;
 
+-- BAI 4
 SELECT users.user_id,users.full_name
 FROM users
 LEFT JOIN orders on users.user_id=orders.user_id
