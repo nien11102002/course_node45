@@ -1,18 +1,31 @@
-import { videoTypeModel } from "../common/sequelizes/sequelize.sequelize.js";
+import {
+  responseError,
+  responseSuccess,
+} from "../common/helpers/response.helper.js";
 import videoService from "../services/video.service.js";
 
 const videoController = {
-  listVideo: async (req, res, n) => {
-    const result = await videoService.listVideo();
-    console.log(result);
-    res.json(result);
+  listVideo: async (req, res, next) => {
+    try {
+      const result = await videoService.listVideo(req);
+
+      const resData = responseSuccess(result, `Success getting list video`);
+
+      res.status(resData.code).json(resData);
+    } catch (error) {
+      next(error);
+    }
   },
+  videoType: async (req, res, next) => {
+    try {
+      const result = await videoService.videoType();
 
-  videoType: async (req, res) => {
-    const result = await videoService.videoType();
-    console.log(result);
+      const resData = responseSuccess(result, `Success getting video type`);
 
-    res.json(result);
+      res.status(resData.code).json(resData);
+    } catch (error) {
+      next(error);
+    }
   },
 };
 

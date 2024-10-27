@@ -1,22 +1,5 @@
-import { DataTypes, INTEGER, Sequelize } from "sequelize";
-
-// SEQUELIZE
-const sequelize = new Sequelize("db_media", "root", "1110", {
-  host: `localhost`,
-  port: `3307`,
-  dialect: "mysql",
-});
-
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log("Connection Success");
-  })
-  .catch((err) => {
-    console.log(err);
-
-    console.log("Connection Fail");
-  });
+import { DataTypes } from "sequelize";
+import { sequelize } from "../common/sequelizes/connect.sequelize.js";
 
 const videoTypeModel = sequelize.define(
   `video_type`,
@@ -52,4 +35,4 @@ const videoTypeModel = sequelize.define(
   }
 );
 
-export { videoTypeModel };
+export default videoTypeModel;
