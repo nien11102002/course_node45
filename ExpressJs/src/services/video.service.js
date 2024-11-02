@@ -14,6 +14,8 @@ const videoService = {
 
     const skip = (page - 1) * pageSize;
 
+    console.log({ page, pageSize });
+
     const videos = await prisma.videos.findMany({
       take: pageSize,
       skip: skip,

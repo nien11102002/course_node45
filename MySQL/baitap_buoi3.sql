@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS app_food;
-CREATE DATABASE IF NOT EXISTS app_food;
+DROP DATABASE IF EXISTS db_app_food;
+CREATE DATABASE IF NOT EXISTS db_app_food;
 
-USE app_food;
+USE db_app_food;
 
 CREATE TABLE users (
 	user_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -23,7 +23,8 @@ res_id INT,
 amount INT,
 date_rate DATETIME, 
 CONSTRAINT fk_rate_user FOREIGN KEY (user_id) REFERENCES users(user_id),
-CONSTRAINT fk_rate_restaurant FOREIGN KEY (res_id) REFERENCES restaurants(res_id)
+CONSTRAINT fk_rate_restaurant FOREIGN KEY (res_id) REFERENCES restaurants(res_id),
+PRIMARY KEY (user_id,res_id)
 );
 
 CREATE TABLE like_res (
@@ -31,7 +32,8 @@ user_id INT,
 res_id INT,
 date_like DATETIME,
 CONSTRAINT fk_like_user FOREIGN KEY (user_id) REFERENCES users(user_id),
-CONSTRAINT fk_like_restaurant FOREIGN KEY (res_id) REFERENCES restaurants(res_id)
+CONSTRAINT fk_like_restaurant FOREIGN KEY (res_id) REFERENCES restaurants(res_id),
+PRIMARY KEY (user_id,res_id)
 );
 
 CREATE TABLE food_types (
@@ -56,7 +58,8 @@ amount INT,
 code VARCHAR(255),
 arr_sub_id VARCHAR(255),
 CONSTRAINT fk_order_user FOREIGN KEY (user_id) REFERENCES users(user_id),
-CONSTRAINT fk_order_food FOREIGN KEY (food_id) REFERENCES foods(food_id)
+CONSTRAINT fk_order_food FOREIGN KEY (food_id) REFERENCES foods(food_id),
+PRIMARY KEY (user_id,food_id)
 );
 
 CREATE TABLE sub_foods (
@@ -93,11 +96,11 @@ INSERT INTO restaurants (res_name, image, `desc`) VALUES
 
 INSERT INTO rate_res (user_id, res_id, amount, date_rate) VALUES
 (1, 1, 5, '2024-10-08 14:30:00'),
-(1, 1, 4, '2024-10-08 14:30:00'),
+(1, 2, 4, '2024-10-08 14:30:00'),
 (2, 2, 3, '2024-10-08 14:30:00'),
 (2, 3, 5, '2024-10-08 14:30:00'),
 (6, 1, 5, '2024-10-08 14:30:00'),
-(6, 1, 4, '2024-10-08 14:30:00'),
+(6, 2, 4, '2024-10-08 14:30:00'),
 (3, 2, 3, '2024-10-08 14:30:00'),
 (3, 3, 5, '2024-10-08 14:30:00'),
 (4, 1, 4, '2024-10-08 14:30:00'),
@@ -151,7 +154,7 @@ INSERT INTO orders (user_id, food_id, amount, code, arr_sub_id) VALUES
 (6, 6, 1, 'ORD006', 'sub6'),
 (7, 7, 2, 'ORD007', 'sub7'),
 (2, 3, 3, 'ORD003', 'sub3'),
-(4, 4, 1, 'ORD004', 'sub4'),
+(4, 5, 1, 'ORD004', 'sub4'),
 (2, 5, 2, 'ORD005', 'sub5'),
 (8, 6, 1, 'ORD006', 'sub6'),
 (2, 7, 2, 'ORD007', 'sub7'),

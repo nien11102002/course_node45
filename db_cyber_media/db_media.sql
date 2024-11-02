@@ -10,7 +10,7 @@ CREATE TABLE users (
 	full_name VARCHAR(255) NOT NULL,
 	avatar VARCHAR(255),
 	
-	goole_id VARCHAR(255),
+	google_id VARCHAR(255),
 	face_app_id VARCHAR(255),
 	
 	
