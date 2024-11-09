@@ -52,14 +52,16 @@ CONSTRAINT fk_food_type FOREIGN KEY (type_id) REFERENCES food_types(type_id)
 );
 
 CREATE TABLe orders (
+order_id INT PRIMARY KEY AUTO_INCREMENT,
 user_id INT,
 food_id INT,
 amount INT,
 code VARCHAR(255),
 arr_sub_id VARCHAR(255),
+
 CONSTRAINT fk_order_user FOREIGN KEY (user_id) REFERENCES users(user_id),
 CONSTRAINT fk_order_food FOREIGN KEY (food_id) REFERENCES foods(food_id),
-PRIMARY KEY (user_id,food_id)
+
 );
 
 CREATE TABLE sub_foods (

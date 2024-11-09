@@ -39,16 +39,17 @@ model like_res {
 }
 
 model orders {
-  user_id    Int
-  food_id    Int
+  order_id   Int     @id @default(autoincrement())
+  user_id    Int?
+  food_id    Int?
   amount     Int?
   code       String? @db.VarChar(255)
   arr_sub_id String? @db.VarChar(255)
-  foods      foods   @relation(fields: [food_id], references: [food_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_order_food")
-  users      users   @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_order_user")
+  foods      foods?  @relation(fields: [food_id], references: [food_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_order_food")
+  users      users?  @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_order_user")
 
-  @@id([user_id, food_id])
   @@index([food_id], map: "fk_order_food")
+  @@index([user_id], map: "fk_order_user")
 }
 
 model rate_res {

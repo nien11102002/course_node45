@@ -32,3 +32,10 @@ export class UnauthorizedError extends Error {
     this.code = 401;
   }
 }
+
+export class ConflictError extends Error {
+  constructor(message = "ConflictError") {
+    super(message);
+    this.code = 409;
+  }
+}

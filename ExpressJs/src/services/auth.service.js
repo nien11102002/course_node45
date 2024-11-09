@@ -1,8 +1,8 @@
 import { BadRequestError } from "../common/helpers/error.helper.js";
 import prisma from "../common/prisma/init.prisma.js";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import tokenService from "./token.service.js";
+
 const authService = {
   register: async (req) => {
     // Bước 1: nhận dữ liệu từ FE
@@ -120,22 +120,15 @@ const authService = {
       });
     }
 
-    const accessToken = jwt.sign(
-      { user_id: userExists.user_id },
-      "ACCESSTOKEN_KHOA_BI_MAT",
-      {
-        expiresIn: "15m",
-      }
-    );
-    const refreshToken = jwt.sign(
-      { user_id: userExists.user_id },
-      "REFRESHTOKEN_KHOA_BI_MAT",
-      {
-        expiresIn: "7d",
-      }
-    );
+    const tokens = tokenService.createTokens(userExists);
 
-    return { accessToken, refreshToken };
+    return tokens;
+  },
+  refreshToken: async (req) => {
+    console.log(req.headers);
+    const accessToken = req.headers?.authorization?.split(" ")[1];
+
+    return `refreshToken`;
   },
 };
 

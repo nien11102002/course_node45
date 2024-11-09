@@ -17,7 +17,6 @@ export const responseError = (
   code = 500,
   stack = null
 ) => {
-  console.log(123);
   return {
     status: `error`,
     code: code,

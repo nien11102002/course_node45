@@ -3,6 +3,18 @@ CREATE DATABASE IF NOT EXISTS db_media;
 
 use db_media;
 
+
+CREATE TABLE roles (
+	role_id INT PRIMARY KEY AUTO_INCREMENT,
+
+	role_name VARCHAR(255),
+	description VARCHAR(255),
+	is_active BOOLEAN DEFAULT TRUE,
+	
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
 CREATE TABLE users (
 	user_id INT PRIMARY KEY AUTO_INCREMENT,
 	email VARCHAR(255) NOT NULL,
@@ -13,7 +25,9 @@ CREATE TABLE users (
 	google_id VARCHAR(255),
 	face_app_id VARCHAR(255),
 	
+	role_id INT,
 	
+	FOREIGN KEY (role_id) REFERENCES roles(role_id),
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -47,17 +61,48 @@ CREATE TABLE videos (
 	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-INSERT INTO users (user_id, email, pass_word, full_name, avatar, goole_id, face_app_id) VALUES
-(1, 'john.doe@example.com', 'SecurePass123', 'John Doe', 'https://example.com/avatars/john_doe.jpg', 'google_id_1', 'facebook_id_1'),
-(2, 'jane.smith@example.com', 'Password456', 'Jane Smith', 'https://example.com/avatars/jane_smith.jpg', 'google_id_2', 'facebook_id_2'),
-(3, 'alex.brown@example.com', 'AlexPass789', 'Alex Brown', 'https://example.com/avatars/alex_brown.jpg', 'google_id_3', 'facebook_id_3'),
-(4, 'lisa.white@example.com', 'LisaSecure321', 'Lisa White', 'https://example.com/avatars/lisa_white.jpg', 'google_id_4', 'facebook_id_4'),
-(5, 'michael.green@example.com', 'MikePass654', 'Michael Green', 'https://example.com/avatars/michael_green.jpg', 'google_id_5', 'facebook_id_5'),
-(6, 'sarah.jones@example.com', 'SarahPass987', 'Sarah Jones', 'https://example.com/avatars/sarah_jones.jpg', 'google_id_6', 'facebook_id_6'),
-(7, 'david.wilson@example.com', 'DavidSecure111', 'David Wilson', 'https://example.com/avatars/david_wilson.jpg', 'google_id_7', 'facebook_id_7'),
-(8, 'emma.taylor@example.com', 'EmmaPass222', 'Emma Taylor', 'https://example.com/avatars/emma_taylor.jpg', 'google_id_8', 'facebook_id_8'),
-(9, 'chris.moore@example.com', 'ChrisPass333', 'Chris Moore', 'https://example.com/avatars/chris_moore.jpg', 'google_id_9', 'facebook_id_9'),
-(10, 'olivia.thomas@example.com', 'OliviaSecure444', 'Olivia Thomas', 'https://example.com/avatars/olivia_thomas.jpg', 'google_id_10', 'facebook_id_10');
+
+CREATE TABLE permissions (
+	permission_id INT PRIMARY KEY AUTO_INCREMENT,
+
+	permission_name VARCHAR(255),
+	endpoint VARCHAR(255),
+	method VARCHAR(255),
+	`module` VARCHAR(255),
+	
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE role_permissions (
+	role_permissions_id INT PRIMARY KEY AUTO_INCREMENT,
+
+	role_id INT,
+	permission_id INT,
+	is_active BOOLEAN DEFAULT TRUE,
+
+	FOREIGN KEY (role_id) REFERENCES roles(role_id),
+	FOREIGN KEY (permission_id) REFERENCES permissions(permission_id),
+	
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+INSERT INTO roles (role_id, role_name, description, is_active) VALUES
+(1, 'Admin', 'Administrator with full access rights', TRUE),
+(2, 'User', 'Regular user with limited access rights', TRUE);
+
+INSERT INTO users (user_id, email, pass_word, full_name, avatar, google_id, face_app_id,role_id) VALUES
+(1, 'john.doe@example.com', 'SecurePass123', 'John Doe', 'https://example.com/avatars/john_doe.jpg', 'google_id_1', 'facebook_id_1',2),
+(2, 'jane.smith@example.com', 'Password456', 'Jane Smith', 'https://example.com/avatars/jane_smith.jpg', 'google_id_2', 'facebook_id_2',2),
+(3, 'alex.brown@example.com', 'AlexPass789', 'Alex Brown', 'https://example.com/avatars/alex_brown.jpg', 'google_id_3', 'facebook_id_3',2),
+(4, 'lisa.white@example.com', 'LisaSecure321', 'Lisa White', 'https://example.com/avatars/lisa_white.jpg', 'google_id_4', 'facebook_id_4',2),
+(5, 'michael.green@example.com', 'MikePass654', 'Michael Green', 'https://example.com/avatars/michael_green.jpg', 'google_id_5', 'facebook_id_5',2),
+(6, 'sarah.jones@example.com', 'SarahPass987', 'Sarah Jones', 'https://example.com/avatars/sarah_jones.jpg', 'google_id_6', 'facebook_id_6',2),
+(7, 'david.wilson@example.com', 'DavidSecure111', 'David Wilson', 'https://example.com/avatars/david_wilson.jpg', 'google_id_7', 'facebook_id_7',1),
+(8, 'emma.taylor@example.com', 'EmmaPass222', 'Emma Taylor', 'https://example.com/avatars/emma_taylor.jpg', 'google_id_8', 'facebook_id_8',1),
+(9, 'chris.moore@example.com', 'ChrisPass333', 'Chris Moore', 'https://example.com/avatars/chris_moore.jpg', 'google_id_9', 'facebook_id_9',1),
+(10, 'olivia.thomas@example.com', 'OliviaSecure444', 'Olivia Thomas', 'https://example.com/avatars/olivia_thomas.jpg', 'google_id_10', 'facebook_id_10',2);
 
 INSERT INTO video_type (type_id, type_name, icon) VALUES
 (1, 'New', 'IconNews'),

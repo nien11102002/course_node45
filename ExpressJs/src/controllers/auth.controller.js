@@ -5,7 +5,7 @@ const authController = {
   register: async (req, res, next) => {
     try {
       const result = await authService.register(req);
-      const resData = responseSuccess(result, `Register successfully`);
+      const resData = responseSuccess(result, `Đăng ký thành công`);
       res.status(resData.code).json(resData);
     } catch (error) {
       next(error);
@@ -14,7 +14,25 @@ const authController = {
   login: async (req, res, next) => {
     try {
       const result = await authService.login(req);
-      const resData = responseSuccess(result, `Login successfully`);
+      const resData = responseSuccess(result, `Đăng nhập thành công`);
+      res.status(resData.code).json(resData);
+    } catch (error) {
+      next(error);
+    }
+  },
+  loginFacebook: async (req, res, next) => {
+    try {
+      const result = await authService.loginFacebook(req);
+      const resData = responseSuccess(result, `Đăng nhập facebook thành công`);
+      res.status(resData.code).json(resData);
+    } catch (error) {
+      next(error);
+    }
+  },
+  refreshToken: async (req, res, next) => {
+    try {
+      const result = await authService.refreshToken(req);
+      const resData = responseSuccess(result, `refresh token thành công`);
       res.status(resData.code).json(resData);
     } catch (error) {
       next(error);

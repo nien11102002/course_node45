@@ -7,4 +7,8 @@ authRouter.post("/register", authController.register);
 
 authRouter.post("/login", authController.login);
 
+authRouter.post("/loginFacebook", authController.loginFacebook);
+
+authRouter.post("/refreshToken", authController.refreshToken);
+
 export default authRouter;
