@@ -8,11 +8,11 @@ likeRestaurantRouter.post("/", likeRestaurantController.create); //like
 likeRestaurantRouter.get("/", likeRestaurantController.findAll);
 likeRestaurantRouter.get(
   "/res-id/:id",
-  likeRestaurantController.findOneByRestaurant
+  likeRestaurantController.findAllByRestaurant
 );
 likeRestaurantRouter.get(
   "/user-id/:id",
-  likeRestaurantController.findOneByUser
+  likeRestaurantController.findAllByUser
 );
 likeRestaurantRouter.patch("/:id", likeRestaurantController.update);
 likeRestaurantRouter.delete("/", likeRestaurantController.remove); //unlike

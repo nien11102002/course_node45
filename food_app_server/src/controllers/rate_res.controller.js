@@ -28,6 +28,32 @@ export const rateRestaurantController = {
     }
   },
 
+  findAllByRestaurant: async (req, res, next) => {
+    try {
+      const result = await rateRestaurantService.findAllByRestaurant(req);
+      const response = responseSuccess(
+        result,
+        `Retrieved rateRestaurants #${req.params.id} successfully`
+      );
+      res.status(response.code).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  findAllByUser: async (req, res, next) => {
+    try {
+      const result = await rateRestaurantService.findAllByUser(req);
+      const response = responseSuccess(
+        result,
+        `Retrieved rateRestaurants #${req.params.id} successfully`
+      );
+      res.status(response.code).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
   findOne: async (req, res, next) => {
     try {
       const result = await rateRestaurantService.findOne(req);

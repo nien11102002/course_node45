@@ -60,7 +60,7 @@ code VARCHAR(255),
 arr_sub_id VARCHAR(255),
 
 CONSTRAINT fk_order_user FOREIGN KEY (user_id) REFERENCES users(user_id),
-CONSTRAINT fk_order_food FOREIGN KEY (food_id) REFERENCES foods(food_id),
+CONSTRAINT fk_order_food FOREIGN KEY (food_id) REFERENCES foods(food_id)
 
 );
 

@@ -1,22 +1,16 @@
-import prisma from "../common/prisma/init.prisma";
+import { ConflictError } from "../common/helpers/error.helper.js";
+import prisma from "../common/prisma/init.prisma.js";
 
 export const orderService = {
   create: async (req) => {
-    const order = req.body;
+    const { user_id, food_id, amount, code, arr_sub_id } = req.body;
 
     console.log(req.body);
 
-    const likeRes = await prisma.like_res.findUnique({
-      where: {},
+    const newOrder = await prisma.orders.create({
+      data: { user_id, food_id, amount, code, arr_sub_id },
     });
-
-    if (likeRes)
-      throw new ConflictError(`Already like the restaurant ${res_id}`);
-
-    await prisma.like_res.create({
-      data: { user_id, res_id, date_like: new Date() },
-    });
-    return { message: `Like added successfully for restaurant ID ${res_id}` };
+    return newOrder;
   },
 
   findAll: async (req) => {

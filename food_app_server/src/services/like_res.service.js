@@ -17,10 +17,10 @@ export const likeRestaurantService = {
     if (likeRes)
       throw new ConflictError(`Already like the restaurant ${res_id}`);
 
-    await prisma.like_res.create({
+    const newRestaurantLike = await prisma.like_res.create({
       data: { user_id, res_id, date_like: new Date() },
     });
-    return { message: `Like added successfully for restaurant ID ${res_id}` };
+    return newRestaurantLike;
   },
 
   findAll: async (req) => {
@@ -56,12 +56,16 @@ export const likeRestaurantService = {
     return { message: `Retrieved likeRestaurant with ID ${req.params.id}` };
   },
 
-  findOneByRestaurant: async (req) => {
+  findAllByRestaurant: async (req) => {
     var { page, pageSize } = req.query;
 
     page = +page > 0 ? +page : 1;
     pageSize = +pageSize > 0 ? +pageSize : 3;
-    const totalItem = await prisma.like_res.count();
+    const totalItem = await prisma.like_res.count({
+      where: {
+        res_id: +req.params.id,
+      },
+    });
     const totalPage = Math.ceil(totalItem / pageSize);
 
     const skip = (page - 1) * pageSize;
@@ -85,12 +89,16 @@ export const likeRestaurantService = {
     };
   },
 
-  findOneByUser: async (req) => {
+  findAllByUser: async (req) => {
     var { page, pageSize } = req.query;
 
     page = +page > 0 ? +page : 1;
     pageSize = +pageSize > 0 ? +pageSize : 3;
-    const totalItem = await prisma.like_res.count();
+    const totalItem = await prisma.like_res.count({
+      where: {
+        user_id: +req.params.id,
+      },
+    });
     const totalPage = Math.ceil(totalItem / pageSize);
 
     const skip = (page - 1) * pageSize;

@@ -43,9 +43,9 @@ export const likeRestaurantController = {
     }
   },
 
-  findOneByRestaurant: async (req, res, next) => {
+  findAllByRestaurant: async (req, res, next) => {
     try {
-      const result = await likeRestaurantService.findOneByRestaurant(req);
+      const result = await likeRestaurantService.findAllByRestaurant(req);
       const response = responseSuccess(
         result,
         `Retrieved likeRestaurant #${req.params.id} successfully`
@@ -56,9 +56,9 @@ export const likeRestaurantController = {
     }
   },
 
-  findOneByUser: async (req, res, next) => {
+  findAllByUser: async (req, res, next) => {
     try {
-      const result = await likeRestaurantService.findOneByUser(req);
+      const result = await likeRestaurantService.findAllByUser(req);
       const response = responseSuccess(
         result,
         `Retrieved likeRestaurant #${req.params.id} successfully`
