@@ -2,12 +2,21 @@ import express from "express";
 import cors from "cors";
 import rootRouter from "./src/routers/root.router.js";
 import { handlerError } from "./src/common/helpers/error.helper.js";
+import { createHandler } from "graphql-http";
+import schema from "./src/common/graphql/schema.graphql.js";
+import root from "./src/common/graphql/root.graphql.js";
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: [`http://localhost:5173`, `https://google.com`],
+  })
+);
 app.use(rootRouter);
 app.use(handlerError);
+
+app.all("/graphql", createHandler({ schema: schema, rootValue: root }));
 
 const PORT = 3069;
 app.listen(PORT, () => {

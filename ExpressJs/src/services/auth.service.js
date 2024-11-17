@@ -2,6 +2,7 @@ import { BadRequestError } from "../common/helpers/error.helper.js";
 import prisma from "../common/prisma/init.prisma.js";
 import bcrypt from "bcrypt";
 import tokenService from "./token.service.js";
+import { mailSender } from "../common/mailer/mailSender.nodemailer.js";
 
 const authService = {
   register: async (req) => {
@@ -33,6 +34,8 @@ const authService = {
         pass_word: hashPassword,
       },
     });
+
+    await mailSender();
 
     return userNew;
   },
@@ -77,7 +80,7 @@ const authService = {
     const { email, id, name, picture } = req.body;
     console.log({ email, id, name, picture });
 
-    const userExists = await prisma.users.findFirst({
+    var userExists = await prisma.users.findFirst({
       where: {
         email: email,
       },
@@ -129,6 +132,11 @@ const authService = {
     const accessToken = req.headers?.authorization?.split(" ")[1];
 
     return `refreshToken`;
+  },
+  getInfo: async (req) => {
+    console.log(req.user);
+
+    return req.user;
   },
 };
 
