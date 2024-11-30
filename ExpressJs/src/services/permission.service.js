@@ -1,4 +1,5 @@
 import prisma from "../common/prisma/init.prisma.js";
+import _ from "lodash";
 
 export const permissionService = {
   create: async function (req) {
@@ -72,6 +73,6 @@ export const permissionService = {
       },
     });
 
-    return lodash.groupBy(permission, "module");
+    return _.groupBy(permission, "module");
   },
 };

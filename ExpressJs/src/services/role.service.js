@@ -35,11 +35,13 @@ export const roleService = {
   },
 
   findOne: async (req) => {
-    prisma.roles.findUnique({
+    const role = await prisma.roles.findUnique({
       where: {
         role_id: +req.params.id,
       },
     });
+
+    return role;
   },
 
   update: async (req) => {
@@ -48,5 +50,35 @@ export const roleService = {
 
   remove: async (req) => {
     return { message: `Removed role with ID ${req.params.id}` };
+  },
+  togglePermission: async (req) => {
+    const { permission_id, role_id } = req.body;
+
+    const role_permission = await prisma.role_permissions.findFirst({
+      where: {
+        role_id: +role_id,
+        permission_id: +permission_id,
+      },
+    });
+
+    if (role_permission) {
+      await prisma.role_permissions.update({
+        where: {
+          role_permissions_id: role_permission.role_permissions_id,
+        },
+        data: {
+          is_active: !role_permission.is_active,
+        },
+      });
+    } else {
+      role_permission = await prisma.role_permissions.create({
+        data: {
+          role_id: +role_id,
+          permission_id: +permission_id,
+        },
+      });
+    }
+
+    return { message: "Toggle permission successfully" };
   },
 };

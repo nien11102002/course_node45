@@ -1,9 +1,13 @@
-import { BadRequestError } from "../common/helpers/error.helper.js";
+import {
+  BadRequestError,
+  UnauthorizedError,
+} from "../common/helpers/error.helper.js";
 import prisma from "../common/prisma/init.prisma.js";
 import bcrypt from "bcrypt";
 import tokenService from "./token.service.js";
 import { mailSender } from "../common/mailer/mailSender.nodemailer.js";
-
+import jwt from "jsonwebtoken";
+import { REFRESH_TOKEN_SECRET } from "../common/constants/app.constant.js";
 const authService = {
   register: async (req) => {
     // Bước 1: nhận dữ liệu từ FE
@@ -35,7 +39,7 @@ const authService = {
       },
     });
 
-    await mailSender();
+    await mailSender(email);
 
     return userNew;
   },
@@ -130,8 +134,27 @@ const authService = {
   refreshToken: async (req) => {
     console.log(req.headers);
     const accessToken = req.headers?.authorization?.split(" ")[1];
+    const refreshToken = req.headers[`x-access-token`];
 
-    return `refreshToken`;
+    if (!refreshToken || !accessToken) throw new UnauthorizedError();
+
+    console.log({ accessToken, refreshToken });
+
+    const decodeRefreshToken = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
+    const decodeAccessToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET, {
+      ignoreExpiration: true,
+    });
+
+    if (decodeRefreshToken.user_id !== decodeAccessToken.user_id)
+      throw new UnauthorizedError();
+
+    const user = await prisma.users.findUnique({
+      where: { user_id: decodeRefreshToken.user_id },
+    });
+
+    const tokens = tokenService.createTokens(user);
+
+    return tokens;
   },
   getInfo: async (req) => {
     console.log(req.user);

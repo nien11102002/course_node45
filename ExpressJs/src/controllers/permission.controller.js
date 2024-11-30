@@ -68,10 +68,10 @@ export const permissionController = {
   },
   groupByModule: async (req, res, next) => {
     try {
-      const result = await permissionService.remove(req);
+      const result = await permissionService.groupByModule(req);
       const response = responseSuccess(
         result,
-        `Removed permission #${req.params.id} successfully`
+        `Get permission GroupByModule #${req.params.id} successfully`
       );
       res.status(response.code).json(response);
     } catch (err) {

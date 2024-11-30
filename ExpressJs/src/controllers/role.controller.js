@@ -60,4 +60,16 @@ export const roleController = {
       next(err);
     }
   },
+  togglePermission: async (req, res, next) => {
+    try {
+      const result = await roleService.togglePermission(req);
+      const response = responseSuccess(
+        result,
+        `Toggle permission successfully`
+      );
+      res.status(response.code).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
 };
