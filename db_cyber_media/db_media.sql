@@ -88,6 +88,20 @@ CREATE TABLE role_permissions (
 	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+CREATE TABLE chats (
+chat_id INT PRIMARY KEY AUTO_INCREMENT,
+
+message LONGTEXT,
+user_id_sender INT,
+user_id_recipient INT,
+
+FOREIGN KEY (user_id_sender) REFERENCES users(user_id),
+FOREIGN KEY (useer_id_recipient) REFERENCES users(user_id),
+
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
 INSERT INTO roles (role_id, role_name, description, is_active) VALUES
 (1, 'Admin', 'Administrator with full access rights', TRUE),
 (2, 'User', 'Regular user with limited access rights', TRUE);

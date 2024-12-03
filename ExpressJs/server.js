@@ -5,8 +5,13 @@ import { handlerError } from "./src/common/helpers/error.helper.js";
 import { createHandler } from "graphql-http";
 import schema from "./src/common/graphql/schema.graphql.js";
 import root from "./src/common/graphql/root.graphql.js";
+import { Server } from "socket.io";
+import { createServer } from "node:http";
+import initSocket from "./src/common/socket/init.socket.js";
 
 const app = express();
+const server = createServer(app);
+
 app.use(express.json());
 app.use(
   cors({
@@ -16,10 +21,12 @@ app.use(
 app.use(rootRouter);
 app.use(handlerError);
 
+initSocket(server);
+
 app.all("/graphql", createHandler({ schema: schema, rootValue: root }));
 
 const PORT = 3069;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 

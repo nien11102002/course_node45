@@ -15,7 +15,7 @@ export const roleService = {
 
     const skip = (page - 1) * pageSize;
 
-    console.log({ page, pageSize });
+    //console.log({ page, pageSize });
 
     const roles = await prisma.roles.findMany({
       take: pageSize,

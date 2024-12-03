@@ -5,7 +5,7 @@ export const permissionService = {
   create: async function (req) {
     const { permission_name, endpoint, method, module } = req.body;
 
-    console.log({ permission_name, endpoint, method, module });
+    //console.log({ permission_name, endpoint, method, module });
 
     const newPermission = await prisma.permissions.create({
       data: {
@@ -29,7 +29,7 @@ export const permissionService = {
 
     const skip = (page - 1) * pageSize;
 
-    console.log({ page, pageSize });
+    //console.log({ page, pageSize });
 
     const permissions = await prisma.permissions.findMany({
       take: pageSize,

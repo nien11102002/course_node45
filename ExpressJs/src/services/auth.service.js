@@ -157,7 +157,7 @@ const authService = {
     return tokens;
   },
   getInfo: async (req) => {
-    console.log(req.user);
+    //console.log(req.user);
 
     return req.user;
   },
