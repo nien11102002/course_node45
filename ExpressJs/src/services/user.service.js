@@ -1,3 +1,4 @@
+import { BadRequestError } from "../common/helpers/error.helper.js";
 import prisma from "../common/prisma/init.prisma.js";
 
 export const userService = {
@@ -47,5 +48,26 @@ export const userService = {
   },
   user: async (req) => {
     return `user`;
+  },
+  uploadAvatar: async (req) => {
+    const file = req.file;
+    if (!file) throw new BadRequestError(`File not exists`);
+
+    const isImgLocal = req.user.avatar?.includes(`local`);
+
+    await prisma.users.update({
+      where: {
+        user_id: +req.user.user_id,
+      },
+      data: {
+        avatar: file.filename,
+      },
+    });
+
+    return {
+      folder: `images/`,
+      filename: file.filename,
+      imgUrl: isImgLocal ? `images${file.path}` : file.path,
+    };
   },
 };

@@ -20,6 +20,7 @@ app.use(
 );
 app.use(rootRouter);
 app.use(handlerError);
+app.use(express.static("."));
 
 initSocket(server);
 
