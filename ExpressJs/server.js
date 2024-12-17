@@ -2,12 +2,13 @@ import express from "express";
 import cors from "cors";
 import rootRouter from "./src/routers/root.router.js";
 import { handlerError } from "./src/common/helpers/error.helper.js";
-import { createHandler } from "graphql-http";
 import schema from "./src/common/graphql/schema.graphql.js";
 import root from "./src/common/graphql/root.graphql.js";
 import { Server } from "socket.io";
 import { createServer } from "node:http";
 import initSocket from "./src/common/socket/init.socket.js";
+import { createHandler } from "graphql-http/lib/use/express";
+import { ruruHTML } from "ruru/server";
 
 const app = express();
 const server = createServer(app);
@@ -24,7 +25,18 @@ app.use(express.static("."));
 
 initSocket(server);
 
-app.all("/graphql", createHandler({ schema: schema, rootValue: root }));
+app.get("/ruru", (_req, res) => {
+  res.type("html");
+  res.end(ruruHTML({ endpoint: "/graphql" }));
+});
+
+app.all(
+  "/graphql",
+  createHandler({
+    schema: schema,
+    rootValue: root,
+  })
+);
 
 const PORT = 3069;
 server.listen(PORT, () => {
