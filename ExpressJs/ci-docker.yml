@@ -18,7 +18,7 @@ jobs:
         run: docker login -u nien11102002 -p ${{secrets.PASS_DOCKER}}
 
       - name: build image
-        run: docker build . -t nien11102002/img-be_cyber_media:latest
+        run: docker build ./ExpressJs -t nien11102002/img-be_cyber_media:latest
 
       - name: push image lên docker hub
         run: docker push nien11102002/img-be_cyber_media:latest
