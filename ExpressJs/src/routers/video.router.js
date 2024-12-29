@@ -5,11 +5,11 @@ import checkPermissionMiddleware from "../common/middlewares/check-permission.mi
 
 const videoRouter = express.Router();
 
-videoRouter.use(protect);
+// videoRouter.use(protect);
 
 videoRouter.get(
   `/video-list`,
-  checkPermissionMiddleware,
+  // checkPermissionMiddleware,
   videoController.listVideo
 );
 

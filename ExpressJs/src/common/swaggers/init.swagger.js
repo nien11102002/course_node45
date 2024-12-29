@@ -1,3 +1,5 @@
+import video from "./video.swagger.js";
+
 const swaggerDocument = {
   openapi: `3.1.0`,
   info: {
@@ -22,6 +24,9 @@ const swaggerDocument = {
         bearerFormat: `JWT`,
       },
     },
+  },
+  paths: {
+    ...video,
   },
 };
 
